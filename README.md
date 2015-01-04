@@ -40,14 +40,29 @@ many-to-many
 - 示例
 
 ```model
-table `user` comment:'用户信息'
 
-field `id` int auto_increment pk comment:'用户id'
-field `class_id` bigint nullable fk:class.id default:0 comment:'班级id'
+table `user` comment '用户信息'
+field `id` bigint auto_increment pk comment '用户id'
+field `login_name` varchar(20) not null uk comment '登录名'
+field `user_name` varchar(20) not null comment '用户姓名'
+field `age` tinyint not null default 0 comment '性别'
+---
 
-relation `user`->many-to-many<-`class`
+table `class` comment '班级信息'
+field `id` bigint auto_increment pk comment '班级id'
+field `class_name` varchar(50) not null comment '班级名称'
+---
+
+table `address` comment '住址'
+field `id` bigint pk not null comment '住址id'
+field `address` varchar(255) not null comment '住址'
+---
+
+relation `user`->n-n<-`class`
+relation `user`->1-n<-`address`
 ```
 
 TODO
 ===============
 1. 远程连接数据库，进行字段更新
+2. 编辑器和实时PDM预览
